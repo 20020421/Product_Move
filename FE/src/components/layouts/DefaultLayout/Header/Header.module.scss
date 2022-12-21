@@ -1,0 +1,116 @@
+.wrapper {
+    margin-bottom: 2.4rem !important;
+    padding:0.8rem;
+    background-color: var(--white);
+
+    --header-nav-link-padding-y: .8rem;
+    --header-nav-link-padding-x: .8rem;
+    user-select: none;
+    .container-fluid {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.2rem;
+    }
+
+    .header {
+        min-height: 4.8rem;
+        .header-nav {
+            display: flex;
+            margin-left: auto;
+            margin-right: 0px;
+            .nav-item {
+                cursor: pointer;
+                .nav-link {
+                    padding: var(--header-nav-link-padding-y) var(--header-nav-link-padding-x);
+                    .nav-icon {
+                        color: rgba(0, 0, 0, .8);
+                    }
+                }
+            }
+        }
+    
+        .header-toggle {
+            margin-right: 3rem !important;
+            cursor: pointer;
+        }
+    
+        .header-setting {
+            margin-left: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            &:hover {
+                .header-setting-icon {
+                    transform: rotate(270deg);
+                }    
+            }
+            .header-setting-icon {
+                margin-right: .5rem;
+                transition: transform .5s ease-out;
+            }
+        }
+    
+        .user-avatar {
+            padding: 0px var(--header-nav-link-padding-x);
+            margin-left: 1.6rem !important;
+            
+            .avatar {
+                width: 4rem;
+                cursor: pointer;
+                height: 4rem;
+            }
+            position: relative;
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50em;
+            }
+        }
+    }
+
+    .header-divider {
+        flex-basis: calc(100% + 2 * 0.8rem);
+        height: 0;
+        margin: 0.8rem -0.8rem;
+        border-top: 1px solid #d8dbe0;
+    }
+
+    .header-breadcrumb {
+        min-height: 3.2rem;
+        .breadcrumb {
+            .breadcrumb-list {
+                display: flex;
+                
+                .breadcrumb-item {
+                    padding-left: .8rem;
+                    font-weight: 500;
+                    &.active {
+                        color: #8a93a2;
+                        font-weight: 400;
+                        a {
+                            color: inherit;
+                            pointer-events: none;
+                            cursor: default;
+                        }
+                    }
+                }
+                .breadcrumb-item + .breadcrumb-item::before {
+                    content: "/";
+                    float: left;
+                    padding-right: .8rem;
+                }
+            }
+        }
+
+    }
+
+    .icon {
+        width: 2rem;
+        height: 2rem;
+        font-size: 2rem;
+    }
+
+
+}

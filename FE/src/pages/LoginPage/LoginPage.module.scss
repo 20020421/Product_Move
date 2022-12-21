@@ -1,0 +1,166 @@
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+
+    .err-message {
+        color: red;
+        min-height: 20px;
+        width: 100%;
+    }
+
+    .container {
+        width: 500px;
+        height: 80vh;
+        display: flex;
+        // justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        h3 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 4rem;
+        }
+
+        form {
+            width: 80%;
+            display: flex;
+            gap: 3.5rem;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .button {
+                padding: 20px;
+                min-width: 200px;
+                border-radius: 10px;
+                outline: none;
+                border: none;
+                background-color: var(--primary);
+                font-size: 2rem;
+                color: var(--white);
+                font-family: inherit;
+                font-weight: 600;
+                opacity: .7;
+                cursor: pointer;
+                transition: opacity .2s ease-out;
+                &:hover , &:active {
+                    opacity: 1;
+                } 
+                &:disabled,
+                &[disabled]{
+                border: 1px solid #999999;
+                background-color: #cccccc;
+                color: #666666;
+                opacity: .7;
+                &:hover {
+                    opacity: .7;
+                }
+}
+            }
+        }
+
+        .help {
+            margin-top: 20px;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .save {
+            color: var(--white);
+            display: flex;
+            gap: 1rem;
+            .icon {
+                width: 25px;
+                height: 25px;
+                user-select: none;
+                cursor: pointer;
+            }
+            p {
+                user-select: none;
+            }
+        }
+
+        .forgot_password {
+            a {
+                color: rgb(78, 78, 247);
+            }
+        }
+
+        .submit {
+            margin-top: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .btn {
+                font-size: 2.3rem;
+                width: 100%;
+            }
+        }
+    }
+}
+
+.form-control {
+    position: relative;
+    width: 100%;
+
+    input {
+        font-family: inherit;
+        font-weight: 500;
+        letter-spacing: 0.7px;
+        padding: 13px 8px;
+        font-size: 1.8rem;
+        outline: none;
+        border: 2px solid white;
+        border-radius: 15px;
+        width: 100%;
+    }
+
+    label {
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: all 0.2s linear;
+        opacity: 0.5;
+        font-weight: 500;
+        user-select: none;
+        cursor: text;
+    }
+
+    input:focus,
+    input:not(:placeholder-shown) {
+        & + label {
+            transform: translateY(-160%);
+            border-radius: 10px;
+            padding: 0px 8px;
+            color: var(--black);
+            border: 1px solid rgba(0, 0, 0, 0.19);
+            opacity: 1;
+        }
+    }
+
+    input:not(:placeholder-shown) {
+        & + label {
+            background-color: rgb(146, 146, 180);
+        }
+    }
+
+    input:focus {
+        & + label {
+            background-color: var(--primary);
+        }
+    }
+
+    input:focus {
+        outline: 1px solid rgb(85, 85, 214);
+        border-color: rgb(85, 85, 214);
+    }
+}

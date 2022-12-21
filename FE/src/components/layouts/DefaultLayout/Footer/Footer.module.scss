@@ -1,0 +1,162 @@
+.wrapper {
+    background-color: var(--black);
+    color: var(--white);
+    padding: 60px 0;
+
+    .title {
+        font-size: 15px;
+        margin-bottom: 3rem;
+    }
+    .container {
+        width: 90%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        .top {
+            display: flex;
+            flex-direction: row;
+            padding-top: 5rem;
+            .option {
+                width: 75%;
+                display: flex;
+                .col {
+                    width: 33.3%;
+                }
+            }
+            .col {
+                width: 25%;
+
+                &.logo {
+                    display: flex;
+                    flex-direction: column;
+                    // justify-content: center;
+                    padding-top: 40px;
+                    align-items: center;
+                    gap: 20px;
+                    img {
+                        width: 58px;
+                        height: 58px;
+                    }
+
+                    .name-web {
+                        font-size: 22px;
+                    }
+                }
+
+                &.media-comp {
+                    padding: 0 2rem;
+                    .items {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2rem;
+                        max-width: 70%;
+
+                        .item {
+                            color: var(--white);
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
+        }
+
+        .line {
+            width: 100%;
+            height: 1px;
+            background-color: var(--white);
+            margin: 3rem 0;
+        }
+
+        .bottom {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2rem;
+
+            .payment-methods {
+                .methods {
+                    display: flex;
+                    flex-wrap: wrap;
+                    max-width: 600px;
+                    gap: 2rem;
+                    img {
+                        height: 28px;
+                        cursor: pointer;
+                    }
+                }
+            }
+            .communities {
+                .community-list {
+                    display: flex;
+                    // justify-content: space-between;
+
+                    gap: 3rem;
+                    .item-comm {
+                        background-color: transparent;
+                        color: var(--white);
+                    }
+                }
+            }
+        }
+
+        .dev {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--primary);
+        }
+    }
+}
+
+@media only screen and (max-width: 1023px) {
+    .wrapper {
+        .container {
+            .top {
+                flex-direction: column;
+                align-items: center;
+
+                .option {
+                    gap: 10px;
+                    justify-content: center;
+                    margin-top: 50px;
+                    width: 100%;
+                }
+            }
+
+            .bottom {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 719px) {
+    .wrapper {
+        .container {
+            .top {
+                padding-top: 0px;
+                .title {
+                    color: var(--primary);
+                    margin-bottom: 2rem;
+                }
+                .option {
+                    flex-direction: column;
+                    // justify-content: center;
+                    // align-items: center;
+                    .col {
+                        // text-align: center;
+                        width: 100%;
+                        padding: 0px 20%;
+                        &.media-comp {
+                            margin-top: 5rem;
+                            padding: 0 12px;
+                            .items {
+                                max-width: 90%;
+                                gap: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

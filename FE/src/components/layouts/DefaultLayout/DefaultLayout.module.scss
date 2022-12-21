@@ -1,0 +1,53 @@
+@import '../../GlobalStyles/GlobalStyles';
+
+.wrapper {
+    width: 100vw;
+    --sidebar-width: 25.6rem;
+    --sidebar-bg: #3c4b64;
+    --sidebar-color: rgba(255, 255, 255, 0.87);
+    --main-gutter-x: 12px;
+    --sidebar-occupy-start: 25.6rem;
+    .sidebar {
+
+        width: var(--sidebar-width);
+        background-color: var(--sidebar-bg);
+        color: var(--sidebar-color);
+        transition: margin .2s ease-out;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        @include respond(under-tab) {
+            
+            margin-left: calc(-1 * var(--sidebar-width));
+            
+            
+        }
+        @include respond(over-tab) {
+        }
+        &.hide {
+            margin-left: calc(-1 * var(--sidebar-width));
+            
+        }
+    }
+    &:has(> .sidebar.hide) {
+        --sidebar-occupy-start: 0rem;
+    }
+    .main {
+        --bg-opacity: 1;
+        width: 100%;
+        will-change: auto;
+        background-color: rgba(var(--light-rgb), var(--bg-opacity));
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 100vh;
+        transition: padding-left .2s ease-out;
+        @include respond(over-tab) {
+            padding-left: var(--sidebar-occupy-start,0);
+        }
+        .main-content {
+            padding: 16px;
+        }
+
+
+    }
+}
