@@ -44,11 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+//        http.cors().disable();
+//                http.csrf().and().cors().disable();
         http.cors().configurationSource(request -> {
             var cors = new CorsConfiguration();
-            cors.setAllowedOrigins(List.of("http://localhost:3000",""));
+            cors.setAllowedOrigins(List.of("http://localhost:3000"));
             cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            cors.setAllowedHeaders(List.of(""));
+            cors.setAllowedHeaders(List.of("*"));
             return cors;
         }).and();
         http.exceptionHandling().authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication Failed"));
@@ -58,7 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilter(new CustomerAuthenticationFilter(authenticationManagerBean()));
 //        http.addFilterAfter(new SimpleCORSFilter(), Filter.class);
         http.addFilterBefore(new CustomerAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(simpleCORSFilter(), SessionManagementFilter.class);
     }
 
     @Bean

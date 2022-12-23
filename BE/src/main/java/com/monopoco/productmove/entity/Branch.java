@@ -26,6 +26,9 @@ public class Branch {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "phone")
+    private String phone;
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id")

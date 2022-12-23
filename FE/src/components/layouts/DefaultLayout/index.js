@@ -4,6 +4,9 @@ import styles from './DefaultLayout.module.scss';
 import Footer from './Footer';
 import Sidebar from '../../Sidebar';
 import { useState } from 'react';
+// import { publicRoutes } from '../../../routes';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ScrollToTop from '../../ScrollToTop';
 
 const cx = classNames.bind(styles);
 function DefaultLayout({ children }) {
@@ -21,10 +24,11 @@ function DefaultLayout({ children }) {
             </div>
             <div className={cx('main')}>
                 <div className={cx('header')}>
-                    <Header toggleSidebar = {handleToggleSidebar} />
+                    <Header toggleSidebar={handleToggleSidebar} />
                 </div>
                 <div className={cx('main-content')}>
                     {children}
+
                 </div>
 
 

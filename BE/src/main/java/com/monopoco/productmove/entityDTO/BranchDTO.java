@@ -14,8 +14,10 @@ public class BranchDTO {
     private String name;
     private String address;
 
-    private String branchTypeName;
+    private String phone;
 
-    private List<Long> userIdList;
+    private String type;
+
+    private List<String> usersName;
 
 }

@@ -1,4 +1,4 @@
-import { faAngleDown, faAngleLeft, faBuildingCircleArrowRight, faChartLine, faDroplet, faIndustry, faPencil, faPuzzlePiece, faToolbox } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleLeft, faBuildingCircleArrowRight, faChartLine, faCodeBranch, faDroplet, faIndustry, faPencil, faPuzzlePiece, faToolbox, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react";
@@ -15,20 +15,41 @@ const adminSidebar = [
         group: 'Branch',
         items: [
             {
-                icon: faIndustry,
-                text: 'Manufacturing Base',
-                to: '/branch/manufacturing_base'
-            },
+                icon: faCodeBranch,
+                text: 'Branch',
+                subs: [
+                    {
+                        icon: faIndustry,
+                        text: 'Manufacturing Base',
+                        to: routes.manufactoringbase,
+                    },
+                    {
+                        icon: faBuildingCircleArrowRight,
+                        text: 'Distributor Agent',
+                        to: routes.distributoragent
+                    },
+                    {
+                        icon: faToolbox,
+                        text: 'Warranty Center',
+                        to: routes.warrrantycenter
+                    },
+                    {
+                        text: 'New Branch',
+                        to: routes.branch
+                    }
+                         
+                ]
+            }
+        ]
+    },
+    {
+        group: 'User',
+        items: [
             {
-                icon: faBuildingCircleArrowRight,
-                text: 'Distributor Agent',
-                to: '/branch/distributor_agent'
-            },
-            {
-                icon: faToolbox,
-                text: 'Warranty Center',
-                to: '/branch/warranty_center'
-            },
+                icon: faUser,
+                text: 'Accounts',
+                to: routes.accounts
+            }
         ]
     }
 ]

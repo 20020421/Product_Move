@@ -13,7 +13,6 @@ public class UserRequestForm {
     private String username;
     private String password;
 
-    private String roleName;
-
+    private String branchName;
     private MultipartFile avatarFile;
 }

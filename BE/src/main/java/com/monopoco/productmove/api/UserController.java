@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -28,8 +29,8 @@ public class UserController {
     private ModelMapper modelMapper;
 
     @GetMapping("")
-    public ResponseEntity<?> getAllUser() {
-        return ResponseEntity.ok().body(service.getAllUser());
+    public List<UserDTO> getAllUser() {
+        return service.getAllUser();
     }
 
     @PostMapping("")
@@ -63,4 +64,7 @@ public class UserController {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(imageData);
     }
+
+
+
 }

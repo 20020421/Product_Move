@@ -1,21 +1,21 @@
 import classNames from "classnames/bind";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { optionNumber } from "../../utils/optionValue";
 import { get } from "../../utils/request";
-import style from './ManufacturingBase.module.scss';
+import style from './DistributorAgent.module.scss';
 
 const cx = classNames.bind(style);
 
-function ManufacturingBase() {
+function DistributorAgent() {
 
-    const FACTORY = "Factory"
+    const DISTRIBUTOR_AGENT = "Distributor Agent"
 
-    const [factories, setFactories] = useState([]);
+    const [distributors, setDistributor] = useState([]);
 
     useEffect(() => {
 
-        get(`/api/v1/branches/${FACTORY}`)
-            .then(response => setFactories(response))
+        get(`/api/v1/branches/${DISTRIBUTOR_AGENT}`)
+            .then(response => setDistributor(response))
             .catch(error => console.log(error));
 
     }, [])
@@ -28,13 +28,14 @@ function ManufacturingBase() {
     })
 
 
-    console.log(factories)
+
+    console.log(distributors)
     return (<div className={cx('wrapper')}>
-    <h1 className={cx('factory-header')}>
-        Factories
+    <h1 className={cx('distributor-header')}>
+        Distributors
     </h1>
     <div className={cx('table')}>
-    <table className={cx('factories')}>
+    <table className={cx('distributors')}>
         <thead>
             <tr className={cx('header-tb')}>
                 <th className={cx('c0')}>
@@ -54,7 +55,7 @@ function ManufacturingBase() {
                     </select>
                 </th>
                 <th>
-                    Factory name
+                    Distributor Agent
                 </th>
                 <th>
                     Address
@@ -98,7 +99,7 @@ function ManufacturingBase() {
         </thead>
         <tbody>
             {
-                factories.map((factorie, index) => (
+                distributors.map((factorie, index) => (
                     <tr key={index}>
                         <td>{index}</td>
                         <td>{factorie.name}</td>
@@ -115,4 +116,4 @@ function ManufacturingBase() {
 </div>);
 }
 
-export default ManufacturingBase;
+export default DistributorAgent;

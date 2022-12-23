@@ -15,6 +15,10 @@ public class UserDTO {
 
     private String roleName;
 
+    private String branchName;
+
+    private String createdAt;
+
     private Long avatar_id;
 
 }

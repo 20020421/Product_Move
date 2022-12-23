@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class BranchRequestForm {
     private String name;
     private String address;
-    private String branchTypeName;
+    private String phone;
+    private String type;
 }

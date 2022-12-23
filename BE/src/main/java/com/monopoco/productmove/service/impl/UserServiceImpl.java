@@ -1,10 +1,12 @@
 package com.monopoco.productmove.service.impl;
 
+import com.monopoco.productmove.entity.Branch;
 import com.monopoco.productmove.entity.ImageData;
 import com.monopoco.productmove.entity.Role;
 import com.monopoco.productmove.entity.User;
 import com.monopoco.productmove.entityDTO.UserDTO;
 import com.monopoco.productmove.principal.UserPrincipal;
+import com.monopoco.productmove.repository.BranchRepository;
 import com.monopoco.productmove.repository.ImageStorageRepository;
 import com.monopoco.productmove.repository.RoleRepository;
 import com.monopoco.productmove.repository.UserRepository;
@@ -19,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +42,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private ImageStorageRepository imageStorageRepository;
 
     @Autowired
+    private BranchRepository branchRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
@@ -52,10 +59,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         log.info("Fetching all user......");
 
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
         userList.forEach(user -> {
             UserDTO userDTO = modelMapper.map(user, UserDTO.class);
             userDTO.setRoleName(user.getRole().getName());
+            userDTO.setCreatedAt(dateFormat.format(user.getCreatedAt()));
+            userDTO.setPassword("secret");
+            if (user.getBranch() != null) {
+                userDTO.setBranchName(user.getBranch().getName());
+            }
             userDTOList.add(userDTO);
+
         });
 
         return userDTOList;
@@ -103,19 +118,35 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDTO addNewUser(UserDTO userDTO) {
+
+        log.info("{}", userDTO.toString());
         User user = modelMapper.map(userDTO, User.class);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         if (userDTO.getAvatar_id() != null && userDTO.getAvatar_id() > 0) {
             user.setImageData(imageStorageRepository.findById(userDTO.getAvatar_id()).get());
         }
-        if (userDTO.getRoleName() != null) {
-            Role role = roleRepository.findRoleByName(userDTO.getRoleName());
-            if (role != null) {
-                user.setRole(role);
-            } else {
-                Role newRole = new Role(null, userDTO.getRoleName(), null);
-                Role roleSaved = roleRepository.save(newRole);
-                user.setRole(roleSaved);
+        if (userDTO.getBranchName() != null) {
+            Optional<Branch> branch = branchRepository.findBranchByName(userDTO.getBranchName());
+            log.info(branch.get().getName());
+            if (branch.isPresent()) {;
+                user.setBranch(branch.get());
+                String roleName = "";
+                switch (branch.get().getBranchType().getTypeCode()) {
+                    case "FTR":
+                        roleName = "FACTORY";
+                        break;
+                    case "DIA":
+                        roleName = "DISTRIBUTOR";
+                        break;
+                    case "WAC":
+                        roleName = "WARRANTY";
+                        break;
+                    default:
+                }
+                Role role = roleRepository.findRoleByName(roleName);
+                if (role != null) {
+                    user.setRole(role);
+                }
             }
         }
         log.info("Saving a new user: {}", user.getUsername());

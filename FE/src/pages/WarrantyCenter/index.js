@@ -1,21 +1,21 @@
 import classNames from "classnames/bind";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { optionNumber } from "../../utils/optionValue";
 import { get } from "../../utils/request";
-import style from './ManufacturingBase.module.scss';
+import style from './WarrantyCenter.module.scss';
 
 const cx = classNames.bind(style);
 
-function ManufacturingBase() {
+function WarrantyCenter() {
 
-    const FACTORY = "Factory"
+    const WARRANTY_CENTER = "Warranty Center"
 
-    const [factories, setFactories] = useState([]);
+    const [warrrantyCenters, setWarrantyCenters] = useState([]);
 
     useEffect(() => {
 
-        get(`/api/v1/branches/${FACTORY}`)
-            .then(response => setFactories(response))
+        get(`/api/v1/branches/${WARRANTY_CENTER}`)
+            .then(response => setWarrantyCenters(response))
             .catch(error => console.log(error));
 
     }, [])
@@ -28,13 +28,13 @@ function ManufacturingBase() {
     })
 
 
-    console.log(factories)
+
     return (<div className={cx('wrapper')}>
-    <h1 className={cx('factory-header')}>
-        Factories
+    <h1 className={cx('warranty-header')}>
+        Distributors
     </h1>
     <div className={cx('table')}>
-    <table className={cx('factories')}>
+    <table className={cx('warranties')}>
         <thead>
             <tr className={cx('header-tb')}>
                 <th className={cx('c0')}>
@@ -54,7 +54,7 @@ function ManufacturingBase() {
                     </select>
                 </th>
                 <th>
-                    Factory name
+                    Warranty Center 
                 </th>
                 <th>
                     Address
@@ -98,13 +98,13 @@ function ManufacturingBase() {
         </thead>
         <tbody>
             {
-                factories.map((factorie, index) => (
+                warrrantyCenters.map((warrantyCenter, index) => (
                     <tr key={index}>
                         <td>{index}</td>
-                        <td>{factorie.name}</td>
-                        <td>{factorie.address}</td>
-                        <td>{factorie.phone}</td>
-                        <td>{factorie.usersName.length}</td>
+                        <td>{warrantyCenter.name}</td>
+                        <td>{warrantyCenter.address}</td>
+                        <td>{warrantyCenter.phone}</td>
+                        <td>{warrantyCenter.usersName.length}</td>
                     </tr>
                 ))
             }
@@ -115,4 +115,4 @@ function ManufacturingBase() {
 </div>);
 }
 
-export default ManufacturingBase;
+export default WarrantyCenter;

@@ -51,7 +51,11 @@ public class ProductMoveApplication {
 	CommandLineRunner run(UserService userService, BranchService branchService) {
 		return args -> {
 			userService.addNewRole(new Role(null, "ADMIN", null));
-			userService.addNewUser(new UserDTO(null, "hungdinh", "123456", null, null));
+			userService.addNewRole(new Role(null, "FACTORY", null));
+			userService.addNewRole(new Role(null, "DISTRIBUTOR", null));
+			userService.addNewRole(new Role(null, "WARRANTY", null));
+
+			userService.addNewUser(new UserDTO(null, "hungdinh", "123456", null, null, null, null));
 			userService.addRoleToUser("hungdinh", "ADMIN");
 			branchService.addBranchType(new BranchType(null,"Factory", "FTR", null));
 			branchService.addBranchType(new BranchType(null,"Distributor Agent", "DIA", null));
