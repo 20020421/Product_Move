@@ -58,4 +58,9 @@ public class BranchController {
     public List<BranchDTO> getBranchesByType(@PathVariable String type) {
         return branchService.findBranchesByBranchType(type);
     }
+
+    @GetMapping("/names")
+    public List<String> getAllBranchName() {
+        return branchService.getAllBranchName();
+    }
 }

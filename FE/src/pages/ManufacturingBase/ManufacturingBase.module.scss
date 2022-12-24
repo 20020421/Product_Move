@@ -53,10 +53,10 @@
                         padding: 4px 10px 4px 5px;
                     }
                 }
-                tr:nth-child(odd) {
+                tr:nth-child(even) {
                     background-color: transparent;
                 }
-                tr:nth-child(even) {
+                tr:nth-child(odd) {
                     background-color: rgba(45, 15, 63, 0.37);
                 }
             }

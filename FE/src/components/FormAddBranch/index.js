@@ -2,7 +2,6 @@ import axios from "axios";
 import classNames from "classnames/bind";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/UserContext";
-import { addBranch } from "../../utils/request";
 import style from './FormAddBranch.module.scss';
 
 const cx = classNames.bind(style);
@@ -61,7 +60,7 @@ function FormAddBranch() {
                 .then(response => {
                     if (response.status === 200) {
                         resetField();
-                        alert("Add success fully");
+                        alert("Add successfully");
                     }
                 })
                 .catch(error => {
@@ -110,7 +109,7 @@ function FormAddBranch() {
                 <label htmlFor="branchname" className={cx('form-label')}>
                     Branch name
                 </label>
-                <input type='text' value={branch.name} className={cx('form-control')} name="branchname" id="branchname" onChange={(event) => {
+                <input autoComplete="off"  type='text' value={branch.name} className={cx('form-control')} name="branchname" id="branchname" onChange={(event) => {
                     setErrorMess("")
                     setBranch({
                     ...branch,
@@ -121,7 +120,7 @@ function FormAddBranch() {
                 <label htmlFor="branchaddress" className={cx('form-label')}>
                     Branch address
                 </label>
-                <input type='text' value={branch.address} className={cx('form-control')} name="branchaddress" id="branchaddress" onChange={(event) => {
+                <input autoComplete="off" type='text' value={branch.address} className={cx('form-control')} name="branchaddress" id="branchaddress" onChange={(event) => {
                     setErrorMess("")
                     setBranch({
                     ...branch,
@@ -132,7 +131,7 @@ function FormAddBranch() {
                 <label htmlFor="phone" className={cx('form-label')}>
                     Phone
                 </label>
-                <input type='text' value={branch.phone} className={cx('form-control')} name="branchphone" id="branchphone" onChange={(event) => {
+                <input autoComplete="off"  type='text' value={branch.phone} className={cx('form-control')} name="branchphone" id="branchphone" onChange={(event) => {
                     setErrorMess("")
                     setBranch({
                     ...branch,

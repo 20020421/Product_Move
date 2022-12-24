@@ -1,5 +1,8 @@
 export const optionNumber  = [
     {
+        value: 5,
+    },
+    {
         value: 10,
     },
     {

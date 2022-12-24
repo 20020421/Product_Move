@@ -16,6 +16,8 @@ public interface BranchService {
 
     public Boolean addUserToBranch(String userName, String brandName);
 
+    public List<String> getAllBranchName();
+
     public void addBranchType(BranchType branchType);
 
 }

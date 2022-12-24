@@ -44,6 +44,11 @@ a {
 
 }
 
+table {
+    border-collapse: separate;
+
+}
+
 ul,
 li {
     list-style: none;

@@ -145,6 +145,20 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
+    public List<String> getAllBranchName() {
+
+        List<Branch> branches = branchRepository.findAll();
+        List<String> branchesName = new ArrayList<>();
+        if (branches.size() > 0) {
+            branches.forEach(branch -> {
+                branchesName.add(branch.getName());
+            });
+        }
+
+        return branchesName;
+    }
+
+    @Override
     public void addBranchType(BranchType branchType) {
         log.info("adding new branch type: {}", branchType.getTypeName());
         BranchType branchTypeSaved = branchTypeRepository.save(branchType);

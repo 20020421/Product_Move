@@ -2,6 +2,8 @@ package com.monopoco.productmove.service;
 
 import com.monopoco.productmove.entity.Role;
 import com.monopoco.productmove.entityDTO.UserDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -23,4 +25,6 @@ public interface UserService {
     UserDTO addNewUser(UserDTO userDTO);
 
     Role addNewRole(Role role);
+
+    Page<UserDTO> getAllWithPaging(Pageable paging);
 }

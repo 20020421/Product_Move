@@ -5,6 +5,7 @@ import com.monopoco.productmove.entityDTO.UserDTO;
 import com.monopoco.productmove.requestentity.UserRequestForm;
 import com.monopoco.productmove.service.ImageStorageService;
 import com.monopoco.productmove.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,12 +13,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@Slf4j
 public class UserController {
     @Autowired
     private UserService service;
@@ -28,13 +32,29 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
 
+
+
     @GetMapping("")
-    public List<UserDTO> getAllUser() {
-        return service.getAllUser();
+    public ResponseEntity<Map<String, Object>> getAllUser(
+            @RequestParam(required = false) String branch,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<UserDTO> userDTOs = service.getAllWithPaging(paging);
+        List<UserDTO> userDTOList = userDTOs.getContent();
+        Map<String, Object> response = new HashMap<>();
+        response.put("users", userDTOList);
+        response.put("currentPage", userDTOs.getNumber());
+        response.put("totalItems", userDTOs.getTotalElements());
+        response.put("totalPages", userDTOs.getTotalPages());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     @PostMapping("")
     public ResponseEntity<?> saveUser(@ModelAttribute UserRequestForm userRequestForm) throws IOException {
+        log.info(userRequestForm.toString());
         UserDTO userDTO = modelMapper.map(userRequestForm, UserDTO.class);
         if (userRequestForm.getAvatarFile() != null) {
             Long avatarId = imageStorageService.uploadImage(userRequestForm.getAvatarFile());

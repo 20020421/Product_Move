@@ -14,6 +14,8 @@ import com.monopoco.productmove.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @Transactional
@@ -51,6 +54,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
 
+    private UserDTO mapUser(User user) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        userDTO.setRoleName(user.getRole().getName());
+        userDTO.setCreatedAt(dateFormat.format(user.getCreatedAt()));
+        userDTO.setPassword("secret");
+        if (user.getBranch() != null) {
+            userDTO.setBranchName(user.getBranch().getName());
+        }
+        return userDTO;
+    }
     @Override
     public List<UserDTO> getAllUser() {
         List<User> userList = userRepository.findAll();
@@ -59,17 +73,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         log.info("Fetching all user......");
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         userList.forEach(user -> {
-            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-            userDTO.setRoleName(user.getRole().getName());
-            userDTO.setCreatedAt(dateFormat.format(user.getCreatedAt()));
-            userDTO.setPassword("secret");
-            if (user.getBranch() != null) {
-                userDTO.setBranchName(user.getBranch().getName());
-            }
-            userDTOList.add(userDTO);
+
+            userDTOList.add(mapUser(user));
 
         });
 
@@ -161,6 +168,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return roleSaved;
     }
 
+    @Override
+    public Page<UserDTO> getAllWithPaging(Pageable paging) {
+        log.info("Fetching all user with page: {}, and size: {}", paging.getPageNumber(), paging.getPageSize());
+        Page<User> userPage = userRepository.findAll(paging);
+        Page<UserDTO> userDTOPage = userPage.map(new Function<User, UserDTO>() {
+            @Override
+            public UserDTO apply(User user) {
+                return mapUser(user);
+            }
+        });
+        return userDTOPage;
+    }
 
 
     @Override
