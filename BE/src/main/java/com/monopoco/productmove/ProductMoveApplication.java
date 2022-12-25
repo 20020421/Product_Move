@@ -5,6 +5,7 @@ import com.monopoco.productmove.entity.BranchType;
 import com.monopoco.productmove.entity.Role;
 import com.monopoco.productmove.entityDTO.UserDTO;
 import com.monopoco.productmove.service.BranchService;
+import com.monopoco.productmove.service.ProductService;
 import com.monopoco.productmove.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
@@ -48,7 +49,7 @@ public class ProductMoveApplication {
 
 
 	@Bean
-	CommandLineRunner run(UserService userService, BranchService branchService) {
+	CommandLineRunner run(UserService userService, BranchService branchService, ProductService productService) {
 		return args -> {
 			userService.addNewRole(new Role(null, "ADMIN", null));
 			userService.addNewRole(new Role(null, "FACTORY", null));
@@ -60,6 +61,14 @@ public class ProductMoveApplication {
 			branchService.addBranchType(new BranchType(null,"Factory", "FTR", null));
 			branchService.addBranchType(new BranchType(null,"Distributor Agent", "DIA", null));
 			branchService.addBranchType(new BranchType(null,"Warranty Center", "WAC", null));
+			productService.addNewColor("red", "#f51110");
+			productService.addNewColor("blue", "#f51120");
+			productService.addNewColor("green", "#f51310");
+			productService.addNewCapacity(128);
+			productService.addNewCapacity(256);
+			productService.addNewCapacity(512);
+			productService.addNewCapacity(1024);
+
 
 		};
 	}

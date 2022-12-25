@@ -6,7 +6,7 @@
         align-items: center;
 
         padding-bottom: 4rem;
-        .account-header {
+        .model-header {
             font-size: 4rem;
             line-height: 4rem;
             font-weight: 500;
@@ -14,7 +14,7 @@
             color: rgba(0, 0, 0, 0.801);
             // padding-bottom: 40px;
         }
-        .new-account {
+        .new-model {
             margin-left: auto;
             .btn-create {
                 padding: 16px 20px;
@@ -44,12 +44,12 @@
         
         width: 90%;
         margin: 0 auto;
-        .accounts {
+        .models {
             width: 100%;
             border-collapse: separate;
             margin: 0 auto;
             thead {
-                // text-align: center;
+                text-align: center;
                 select {
                     padding: 0px 5px;
                     font-size: 1.6rem;
@@ -70,14 +70,7 @@
                     }
                     
                 }
-                .filter {
-                    .filter-field {
-                        width: 100%;
-                        outline: none;
-                        padding: 3px;
-                        font-size: 1.6rem;
-                    }
-                }
+
             }
             tbody {
                 border-top: 20px solid transparent;

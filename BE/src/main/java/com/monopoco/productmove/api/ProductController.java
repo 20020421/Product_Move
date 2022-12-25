@@ -23,16 +23,16 @@ public class ProductController {
     private ModelMapper modelMapper;
 
 
-    @PostMapping("")
-    public ResponseEntity<?> addNewProduct(@ModelAttribute ProductRequestForm productRequestForm) {
-        ProductDTO productDTO = modelMapper.map(productRequestForm, ProductDTO.class);
-        ProductDTO productDTOSaved = productService.save(productDTO);
-        if (productDTOSaved != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(productDTOSaved);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add Product faild");
-        }
-
-    }
+//    @PostMapping("")
+//    public ResponseEntity<?> addNewProduct(@ModelAttribute ProductRequestForm productRequestForm) {
+//        ProductDTO productDTO = modelMapper.map(productRequestForm, ProductDTO.class);
+//        ProductDTO productDTOSaved = productService.save(productDTO);
+//        if (productDTOSaved != null) {
+//            return ResponseEntity.status(HttpStatus.CREATED).body(productDTOSaved);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add Product faild");
+//        }
+//
+//    }
 
 }

@@ -1,4 +1,5 @@
-import { faAngleDown, faAngleLeft, faBuildingCircleArrowRight, faChartLine, faCodeBranch, faDroplet, faIndustry, faPencil, faPuzzlePiece, faToolbox, faUser } from "@fortawesome/free-solid-svg-icons";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import { faAngleDown, faAngleLeft, faBorderAll, faBuildingCircleArrowRight, faChartLine, faCodeBranch, faDroplet, faIndustry, faMobile, faPencil, faPuzzlePiece, faToolbox, faUser, faWarehouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react";
@@ -49,6 +50,34 @@ const adminSidebar = [
                 icon: faUser,
                 text: 'Accounts',
                 to: routes.accounts
+            }
+        ]
+    }
+]
+
+const factorySidebar = [
+    {
+        group: "Product",
+        items: [
+            {
+                icon: faBorderAll,
+                text: "Model",
+                to: routes.model
+            },
+            {
+                icon: faMobile,
+                text: "Products",
+                to: routes.product
+            }
+        ]
+    },
+    {
+        group: "Warehouse",
+        items: [
+            {
+                icon: faWarehouse,
+                text: 'Warehouses',
+                to: routes.warehouse
             }
         ]
     }
@@ -255,7 +284,7 @@ function Sidebar() {
     // console.log(location.pathname)
 
     // console.log(minimumSidebar);
-    let sidebar = userState.userInfo.role === 'ADMIN' ? adminSidebar : sidebarFake;
+    let sidebar = userState.userInfo.role === 'ADMIN' ? adminSidebar :   userState.userInfo.role === 'FACTORY' ? factorySidebar :   sidebarFake;
 
     return ( 
         <SidebarContext.Provider value={[sidebarState, dispatch]}>

@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +29,8 @@ public class BranchController {
     @PostMapping("")
 //    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> addNewBranch(@RequestBody BranchRequestForm request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info(authentication.getAuthorities().toString());
         log.info("{}", request.toString());
         BranchDTO branchDTO = modelMapper.map(request, BranchDTO.class);
         BranchDTO branchDTOSaved = branchService.save(branchDTO);

@@ -1,25 +1,46 @@
 package com.monopoco.productmove.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "product_models")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Setter
+@Getter
+@ToString
 public class ProductModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_model_name")
-    private String productModelName;
+    @Column(name = "model", unique = true)
+    private String model;
+
+    @Column(name = "chip")
+    private String chip;
+
+    @ManyToMany
+    @JoinTable(
+            name = "model_color",
+            joinColumns = @JoinColumn(name = "model_id"),
+            inverseJoinColumns = @JoinColumn(name = "color_id")
+
+    )
+    private Set<Color> color;
+
+    @ManyToMany
+    @JoinTable(
+            name = "model_capacity",
+            joinColumns = @JoinColumn(name = "model_id"),
+            inverseJoinColumns = @JoinColumn(name = "capacity_id")
+    )
+    private Set<Capacity> capacities;
 
     @OneToMany(mappedBy = "productModel")
     private List<Product> products;

@@ -6,6 +6,9 @@ const routes = {
     distributoragent: '/branches/distributor_agent',
     warrrantycenter: '/branches/warranty_center',
     accounts: '/accounts',
+    model: '/models',
+    product: '/products',
+    warehouse: '/warehouses',
 
     no_match: '*',
 };

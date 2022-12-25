@@ -9,6 +9,7 @@ import BranchNew from '../pages/BranchNew';
 import UserPage from '../pages/UserPage';
 import DistributorAgent from '../pages/DistributorAgent';
 import WarrantyCenter from '../pages/WarrantyCenter';
+import ModelPage from '../pages/ModelPage';
 
 
 const publicRoutes = [
@@ -58,6 +59,12 @@ const privateRoutes = [
         title: 'Users',
         path: routes.accounts,
         component: UserPage
+
+    },
+    {
+        title: 'Models',
+        path: routes.model,
+        component: ModelPage
 
     },
     {
