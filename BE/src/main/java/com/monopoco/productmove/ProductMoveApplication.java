@@ -61,9 +61,6 @@ public class ProductMoveApplication {
 			branchService.addBranchType(new BranchType(null,"Factory", "FTR", null));
 			branchService.addBranchType(new BranchType(null,"Distributor Agent", "DIA", null));
 			branchService.addBranchType(new BranchType(null,"Warranty Center", "WAC", null));
-			productService.addNewColor("red", "#f51110");
-			productService.addNewColor("blue", "#f51120");
-			productService.addNewColor("green", "#f51310");
 			productService.addNewCapacity(128);
 			productService.addNewCapacity(256);
 			productService.addNewCapacity(512);

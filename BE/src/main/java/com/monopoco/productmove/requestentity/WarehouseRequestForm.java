@@ -1,18 +1,18 @@
 package com.monopoco.productmove.requestentity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class WarehouseRequestForm {
 
-    private String warehouseName;
+    private String name;
 
-    private String warehouseAddress;
+    private String address;
 
 
 }

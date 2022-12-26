@@ -4,6 +4,7 @@ import com.monopoco.productmove.entityDTO.ProductDTO;
 import com.monopoco.productmove.entityDTO.WarehouseDTO;
 import com.monopoco.productmove.requestentity.AddProductToWarehouseForm;
 import com.monopoco.productmove.requestentity.WarehouseRequestForm;
+import com.monopoco.productmove.service.BranchService;
 import com.monopoco.productmove.service.WareHouseService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -23,12 +24,15 @@ public class WarehouseController {
     private WareHouseService wareHouseService;
 
     @Autowired
+    private BranchService branchService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @PostMapping("")
-    public ResponseEntity<?> addNewWarehouse(@ModelAttribute WarehouseRequestForm warehouseRequestForm) {
+    public ResponseEntity<?> addNewWarehouse(@RequestBody WarehouseRequestForm warehouseRequestForm) {
         WarehouseDTO warehouseDTO = modelMapper.map(warehouseRequestForm, WarehouseDTO.class);
-        WarehouseDTO warehouseDTOSaved = wareHouseService.save(warehouseDTO);
+        WarehouseDTO warehouseDTOSaved = branchService.saveNewWarehouse(warehouseDTO);
         if (warehouseDTOSaved != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(warehouseDTOSaved);
         } else  {

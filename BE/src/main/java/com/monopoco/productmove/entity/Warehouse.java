@@ -21,16 +21,18 @@ public class Warehouse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "warehouse_name")
-    private String warehouseName;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "warehouse_address")
-    private String warehouseAddress;
+    @Column(name = "address")
+    private String address;
 
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Product> products;
 
-    @OneToOne(mappedBy = "warehouse")
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    @JsonBackReference
     private Branch branch;
 }

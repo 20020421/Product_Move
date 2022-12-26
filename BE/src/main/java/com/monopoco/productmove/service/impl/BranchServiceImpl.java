@@ -1,19 +1,16 @@
 package com.monopoco.productmove.service.impl;
 
-import com.monopoco.productmove.entity.Branch;
-import com.monopoco.productmove.entity.BranchType;
-import com.monopoco.productmove.entity.Role;
-import com.monopoco.productmove.entity.User;
+import com.monopoco.productmove.entity.*;
 import com.monopoco.productmove.entityDTO.BranchDTO;
 import com.monopoco.productmove.entityDTO.UserDTO;
-import com.monopoco.productmove.repository.BranchRepository;
-import com.monopoco.productmove.repository.BranchTypeRepository;
-import com.monopoco.productmove.repository.RoleRepository;
-import com.monopoco.productmove.repository.UserRepository;
+import com.monopoco.productmove.entityDTO.WarehouseDTO;
+import com.monopoco.productmove.repository.*;
 import com.monopoco.productmove.service.BranchService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -38,6 +35,10 @@ public class BranchServiceImpl implements BranchService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private WarehouseRepository warehouseRepository;
+
 
 
     @Autowired
@@ -159,8 +160,31 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
+    public WarehouseDTO saveNewWarehouse(WarehouseDTO warehouseDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findUserByUsername(username);
+        String brandName = user.getBranch().getName();
+
+        Warehouse warehouse = modelMapper.map(warehouseDTO, Warehouse.class);
+        Optional<Branch> branch = branchRepository.findBranchByName(brandName);
+        branch.ifPresent(warehouse::setBranch);
+        warehouse.setProducts(new ArrayList<>());
+        Warehouse warehouseSaved = warehouseRepository.save(warehouse);
+
+        WarehouseDTO warehouseDTOSaved = modelMapper.map(warehouseSaved, WarehouseDTO.class);
+        warehouseDTOSaved.setProductDTOS(new ArrayList<>());
+        warehouseDTOSaved.setBranchName(brandName);
+        return warehouseDTOSaved;
+
+
+    }
+
+    @Override
     public void addBranchType(BranchType branchType) {
         log.info("adding new branch type: {}", branchType.getTypeName());
         BranchType branchTypeSaved = branchTypeRepository.save(branchType);
     }
+
+
 }

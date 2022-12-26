@@ -2,6 +2,7 @@ package com.monopoco.productmove.service;
 
 import com.monopoco.productmove.entity.BranchType;
 import com.monopoco.productmove.entityDTO.BranchDTO;
+import com.monopoco.productmove.entityDTO.WarehouseDTO;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface BranchService {
     public Boolean addUserToBranch(String userName, String brandName);
 
     public List<String> getAllBranchName();
+
+    public WarehouseDTO saveNewWarehouse(WarehouseDTO warehouseDTO);
 
     public void addBranchType(BranchType branchType);
 

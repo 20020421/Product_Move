@@ -29,7 +29,6 @@ public class WarehouseServiceImpl implements WareHouseService {
     @Autowired
     private ModelMapper modelMapper;
 
-
     @Override
     public WarehouseDTO save(WarehouseDTO warehouseDTO) {
         Warehouse warehouse = modelMapper.map(warehouseDTO, Warehouse.class);

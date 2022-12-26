@@ -17,7 +17,7 @@ public interface ProductService {
 
     public void addNewCapacity(Integer capacity);
 
-    public List<Map<String, String>> getAllColor();
+    public Map<String, String> getAllColor();
 
     public List<Integer> getAllCapacity();
 
@@ -25,7 +25,9 @@ public interface ProductService {
 
     public Page<ProductModelDTO> getAllModel(Pageable pageable);
 
-    public List<String> getColorCode(List<String> colors);
+    public List<Map<String, String>> getColor(Long id);
+
+    public void addNewColor(Map<String, String> colors);
 
 
 }

@@ -48,13 +48,20 @@ public class ModelController {
 
     @PostMapping("/colors")
     public ResponseEntity<?> addColor(@RequestBody ColorRequest request) {
-        productService.addNewColor(request.getColor(), request.getCode());
+        log.info(request.toString());
+        productService.addNewColor(request.getColors());
         return ResponseEntity.ok(request);
     }
 
-    @PostMapping("/colors/get")
-    public ResponseEntity<?> getColorCode(@RequestBody List<String> colors) {
-        List<String> colorCode = productService.getColorCode(colors);
+    @GetMapping("/colors")
+    public ResponseEntity<?> getAllColor() {
+        Map<String, String> colors = productService.getAllColor();
+        return ResponseEntity.status(HttpStatus.OK).body(colors);
+    }
+
+    @GetMapping("/{id}/colors")
+    public ResponseEntity<?> getColorCode(@PathVariable Long id) {
+        List<Map<String, String>> colorCode = productService.getColor(id);
         return ResponseEntity.status(HttpStatus.OK).body(colorCode);
     }
 
@@ -62,6 +69,12 @@ public class ModelController {
     public ResponseEntity<?> addCapacity(@RequestBody CapacityRequest request) {
         productService.addNewCapacity(request.getCapacity());
         return ResponseEntity.ok(request);
+    }
+
+    @GetMapping("/capacities")
+    public ResponseEntity<?> getAllCapacity() {
+        List<Integer> capacities = productService.getAllCapacity();
+        return ResponseEntity.status(HttpStatus.OK).body(capacities);
     }
 
     @PostMapping("")

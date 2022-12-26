@@ -1,19 +1,21 @@
 package com.monopoco.productmove.entityDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class WarehouseDTO {
     private Long id;
 
-    private String warehouseName;
+    private String name;
 
-    private String warehouseAddress;
+    private String address;
     private List<ProductDTO> productDTOS;
+
+    private String branchName;
 }

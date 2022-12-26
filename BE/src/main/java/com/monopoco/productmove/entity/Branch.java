@@ -39,10 +39,9 @@ public class Branch {
     @JsonManagedReference
     private List<User> users;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "warehouse_id")
-    @JsonBackReference
-    private Warehouse warehouse;
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Warehouse> warehouses;
 
 
 

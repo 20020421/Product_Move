@@ -86,17 +86,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Map<String, String>> getAllColor() {
-        List<Map<String, String>> colorString = new ArrayList<>();
-        List<Color> colors = colorRepository.findAll();
-        colors.forEach(color -> {
-            Map<String, String> colorI = new HashMap<>();
-            colorI.put("color", color.getColor());
-            colorI.put("code", color.getCode());
-            colorString.add(colorI);
+    public Map<String, String> getAllColor() {
+        Map<String, String> colors = new HashMap<>();
+        List<Color> colorList = colorRepository.findAll();
+        colorList.forEach(color -> {
+            colors.put(color.getColor(), color.getCode());
         });
 
-        return colorString;
+        return colors;
     }
 
     @Override
@@ -149,12 +146,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<String> getColorCode(List<String> colors) {
-        List<String> colorCode = new ArrayList<>();
-        colors.forEach(color -> {
-            Color colorDB = colorRepository.findByColor(color);
-            colorCode.add(colorDB.getCode());
+    public List<Map<String,String>> getColor(Long id) {
+        Optional<ProductModel> productModel = productModelRepository.findById(id);
+        List<Map<String, String>> colors = new ArrayList<>();
+        productModel.get().getColor().forEach(color -> {
+            Map<String, String> colorMap = new HashMap<>();
+            colorMap.put("color", color.getColor());
+            colorMap.put("code", color.getCode());
+            colors.add(colorMap);
         });
-        return colorCode;
+        return colors;
     }
+
+    @Override
+    public void addNewColor(Map<String, String> colors) {
+        for(Map.Entry<String, String> pair : colors.entrySet()) {
+            colorRepository.save(new Color(null, pair.getKey(), pair.getValue(), null));
+        }
+    }
+
+
 }

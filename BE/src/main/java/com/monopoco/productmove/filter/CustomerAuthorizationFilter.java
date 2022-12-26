@@ -50,7 +50,6 @@ public class CustomerAuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                    log.info(authenticationToken.toString());
                     filterChain.doFilter(request, response);
                 } catch (Exception ex) {
                     log.error("Error logging in: {}", ex.getMessage());
