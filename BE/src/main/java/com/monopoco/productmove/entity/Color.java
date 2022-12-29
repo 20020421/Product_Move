@@ -3,6 +3,7 @@ package com.monopoco.productmove.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,5 +28,6 @@ public class Color extends EntityAudit {
     @ManyToMany(mappedBy = "color")
     private Set<ProductModel> productModels;
 
-
+    @OneToMany(mappedBy = "color")
+    private List<Product> products;
 }

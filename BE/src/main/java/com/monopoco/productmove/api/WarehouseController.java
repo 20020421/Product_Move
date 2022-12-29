@@ -9,11 +9,17 @@ import com.monopoco.productmove.service.WareHouseService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/warehouses")
@@ -38,6 +44,24 @@ public class WarehouseController {
         } else  {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add new warehouse failed");
         }
+    }
+
+    @GetMapping()
+    public ResponseEntity<Map<String, Object>> getWarehouse(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "100") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<WarehouseDTO> warehouseDTOPage = branchService.getWarehouses(pageable);
+        List<WarehouseDTO> warehouseDTOList = warehouseDTOPage.getContent();
+        Map<String, Object> response = new HashMap<>();
+        response.put("warehouses", warehouseDTOList);
+        response.put("currentPage", warehouseDTOPage.getNumber());
+        response.put("totalItems", warehouseDTOPage.getTotalElements());
+        response.put("totalPages", warehouseDTOPage.getTotalPages());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     @PostMapping("/products")

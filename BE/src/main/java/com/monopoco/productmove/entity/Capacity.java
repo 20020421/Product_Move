@@ -3,6 +3,7 @@ package com.monopoco.productmove.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,6 +24,9 @@ public class Capacity {
 
     @ManyToMany(mappedBy = "capacities")
     private Set<ProductModel> productModels;
+
+    @OneToMany(mappedBy = "capacity")
+    private List<Product> products;
 
 
 }

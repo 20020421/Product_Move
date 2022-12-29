@@ -9,6 +9,13 @@ const routes = {
     model: '/models',
     product: '/products',
     warehouse: '/warehouses',
+    factoryWarehousing: '/factories/warehousing',
+    productComingDistribution: '/distributor/coming',
+    statisticalSold: '/statistical/sold',
+    statisticalInStock: '/statistical/instock',
+    statisticalWarranty: '/statistical/warranty',
+    newPurchase: '/purchase',
+    
 
     no_match: '*',
 };

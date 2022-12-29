@@ -5,22 +5,39 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.monopoco.productmove.entity.ProductModel;
 import com.monopoco.productmove.entity.Warehouse;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.Map;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
     private Long id;
 
-    private String productName;
+    private String serial;
 
-    private String productModel;
+    private String status;
 
-    private Long warehouseId;
+    private String productModelName;
+
+    private String createdAt;
+
+    private String updateAt;
+    private String colorString;
+
+    private Integer capacityInt;
+
+    private String manufactureAt;
+
+    private String distributionAt;
+
+    private String warrantyAt;
+
+    private String warehouseName;
 
 }

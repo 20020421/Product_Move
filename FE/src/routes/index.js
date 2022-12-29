@@ -10,6 +10,13 @@ import UserPage from '../pages/UserPage';
 import DistributorAgent from '../pages/DistributorAgent';
 import WarrantyCenter from '../pages/WarrantyCenter';
 import ModelPage from '../pages/ModelPage';
+import WarehousePage from '../pages/WarehousePage';
+import Warehousing from '../pages/WarehousingPage';
+import WarehousingPage from '../pages/WarehousingPage';
+import ProductPage from '../pages/ProductPage';
+import ComingDistributor from '../pages/ComingDistributor';
+import SoldStatistical from '../pages/StatisticalPage/SoldStatistical';
+import Purchase from '../pages/Purchase';
 
 
 const publicRoutes = [
@@ -68,10 +75,41 @@ const privateRoutes = [
 
     },
     {
+        title: 'Warehouses',
+        path: routes.warehouse,
+        component: WarehousePage
+    },
+    {
+        title: 'Warehousing',
+        path: routes.factoryWarehousing,
+        component: WarehousingPage
+    },
+    {
+        title: 'Products',
+        path: routes.product,
+        component: ProductPage
+    },
+    {
+        title: 'Coming',
+        path: routes.productComingDistribution,
+        component: ComingDistributor
+    },
+    {
+        title: 'Statistical Sold',
+        path: routes.statisticalSold,
+        component: SoldStatistical
+    },
+    {
+        title: 'Purchase',
+        path: routes.newPurchase,
+        component: Purchase
+    },
+    {
         title: 'Not Found',
         path:routes.no_match,
         component: NoRouteMatch
     },
+
 
 ];
 

@@ -2,16 +2,16 @@ package com.monopoco.productmove.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "branches")
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Branch {
@@ -42,6 +42,26 @@ public class Branch {
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Warehouse> warehouses;
+
+    @OneToMany(mappedBy = "factory", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Product> productsManufactured;
+
+    @OneToMany(mappedBy = "distribution", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Product> productsAllocated;
+
+    @OneToMany(mappedBy = "warranty", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Product> productsWarrantied;
+
+    @OneToMany(mappedBy = "distributorAgent", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<TransactionHistory> transactionHistories;
+
+    @OneToMany(mappedBy = "factory", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<FactoryHistory> factoryHistories;
 
 
 

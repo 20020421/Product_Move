@@ -155,9 +155,11 @@ function FormAddModel({ state, setState }) {
                 <Select
                     dropdownStyle={{
                         zIndex: '999999',
-                        "--display": 'grid'
+                        "--display": 'grid',
+                        width: '476px'
                     }}
                     size="large"
+                    dropdownMatchSelectWidth={false}
 
                     tagRender={tagRender}
                     // showSearch

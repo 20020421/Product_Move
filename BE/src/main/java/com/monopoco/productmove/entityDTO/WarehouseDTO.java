@@ -17,5 +17,7 @@ public class WarehouseDTO {
     private String address;
     private List<ProductDTO> productDTOS;
 
+    private int totalProduct;
+
     private String branchName;
 }

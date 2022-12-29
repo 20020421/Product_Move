@@ -12,4 +12,6 @@ public interface WareHouseService {
     public void  addProductToWarehouse(Long productId, Long warehouseId);
 
     public List<ProductDTO> getAllProductFromWarehouse(Long warehouseId);
+
+
 }

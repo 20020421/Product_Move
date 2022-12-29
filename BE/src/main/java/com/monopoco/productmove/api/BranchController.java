@@ -1,18 +1,25 @@
 package com.monopoco.productmove.api;
 
+import com.monopoco.productmove.entity.Branch;
 import com.monopoco.productmove.entityDTO.BranchDTO;
+import com.monopoco.productmove.entityDTO.ProductDTO;
 import com.monopoco.productmove.requestentity.BranchRequestForm;
 import com.monopoco.productmove.service.BranchService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -27,7 +34,6 @@ public class BranchController {
     private ModelMapper modelMapper;
 
     @PostMapping("")
-//    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> addNewBranch(@RequestBody BranchRequestForm request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info(authentication.getAuthorities().toString());
@@ -66,5 +72,25 @@ public class BranchController {
     @GetMapping("/names")
     public List<String> getAllBranchName() {
         return branchService.getAllBranchName();
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<Map<String, Object>> getProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<ProductDTO> productDTOPage = branchService.getAllProduct(pageable);
+        List<ProductDTO> productDTOList = productDTOPage.getContent();
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("products", productDTOList);
+        response.put("currentPage", productDTOPage.getNumber());
+        response.put("totalItems", productDTOPage.getTotalElements());
+        response.put("totalPages", productDTOPage.getTotalPages());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+
     }
 }

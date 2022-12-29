@@ -1,27 +1,35 @@
 package com.monopoco.productmove.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Table(name = "transaction_histoty")
-@Entity
+@Setter
+@Getter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class TransactionHistory {
+@Entity
+@Table(name = "transaction_history")
+public class TransactionHistory extends EntityAudit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "customer_name")
+    private String customerName;
+
+    @Column(name = "customer_phone")
+    private String customerPhone;
+
     @ManyToOne
-    @JoinColumn(name = "transaction_type")
+    @JoinColumn(name = "distributor_agent_id")
     @JsonBackReference
-    private TransactionType transactionType;
+    private Branch distributorAgent;
+
+    private String serial;
 
 
 

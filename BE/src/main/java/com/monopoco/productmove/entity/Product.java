@@ -2,25 +2,60 @@ package com.monopoco.productmove.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Table(name = "products")
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Product extends EntityAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_name")
-    private String productName;
+    @Column(name = "serial", unique = true)
+    private String serial;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.ORDINAL)
+    private ProductStatus productStatus;
+
+
+    @ManyToOne
+    @JoinColumn(name = "manufacture_at")
+    @JsonBackReference
+    private Branch factory;
+
+    @ManyToOne
+    @JoinColumn(name = "color_id")
+    @JsonBackReference
+    private Color color;
+
+    @ManyToOne
+    @JoinColumn(name = "capacity_id")
+    @JsonBackReference
+    private Capacity capacity;
+
+
+    @ManyToOne
+    @JoinColumn(name = "distribution_at")
+    @JsonBackReference
+    private Branch distribution;
+
+    @ManyToOne
+    @JoinColumn(name = "warranty_at")
+    @JsonBackReference
+    private Branch warranty;
+
+
+
+
 
     @ManyToOne
     @JoinColumn(name = "product_model")

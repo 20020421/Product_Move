@@ -1,8 +1,6 @@
 package com.monopoco.productmove.service.impl;
 
-import com.monopoco.productmove.entity.Capacity;
-import com.monopoco.productmove.entity.Color;
-import com.monopoco.productmove.entity.ProductModel;
+import com.monopoco.productmove.entity.*;
 import com.monopoco.productmove.entityDTO.ProductDTO;
 import com.monopoco.productmove.entityDTO.ProductModelDTO;
 import com.monopoco.productmove.repository.CapacityRepository;
@@ -10,6 +8,7 @@ import com.monopoco.productmove.repository.ColorRepository;
 import com.monopoco.productmove.repository.ProductModelRepository;
 import com.monopoco.productmove.repository.ProductRepository;
 import com.monopoco.productmove.service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,11 +16,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Function;
 
 @Service
 @Transactional
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -66,8 +68,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO save(ProductDTO productDTO) {
-        return null;
+    public ProductDTO save(ProductDTO productDTO, Warehouse warehouse) {
+        Product product = new Product();
+        product.setWarehouse(warehouse);
+        product.setSerial(productDTO.getSerial());
+        product.setProductStatus(ProductStatus.NEWLY_PRODUCED);
+        product.setFactory(warehouse.getBranch());
+        Color color = colorRepository.findByColor(productDTO.getColorString());
+        product.setColor(color);
+        Capacity capacity = capacityRepository.findByCapacity(productDTO.getCapacityInt());
+        product.setCapacity(capacity);
+        ProductModel productModel = productModelRepository.findByModel(productDTO.getProductModelName());
+        product.setProductModel(productModel);
+        productRepository.save(product);
+
+        return productDTO;
     }
 
     @Override
@@ -77,12 +92,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addNewColor(String color, String code) {
-        colorRepository.save(new Color(null, color, code, null));
+        colorRepository.save(new Color(null, color, code, null, null));
     }
 
     @Override
     public void addNewCapacity(Integer capacity) {
-        capacityRepository.save(new Capacity(null, capacity, null));
+        capacityRepository.save(new Capacity(null, capacity, null, null));
     }
 
     @Override
@@ -159,10 +174,65 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Map<String, String> getColor(String model) {
+        ProductModel productModel = productModelRepository.findByModel(model);
+        Map<String, String> colors = new HashMap<>();
+        productModel.getColor().forEach(color -> {
+            colors.put(color.getColor(), color.getCode());
+        });
+        return colors;
+    }
+
+    @Override
     public void addNewColor(Map<String, String> colors) {
         for(Map.Entry<String, String> pair : colors.entrySet()) {
-            colorRepository.save(new Color(null, pair.getKey(), pair.getValue(), null));
+            colorRepository.save(new Color(null, pair.getKey(), pair.getValue(), null, null));
         }
+    }
+
+    @Override
+    public List<ProductDTO> getProductsByWarehouse(String warehouse) {
+        List<Product> productList = productRepository.findProductsByWarehouse_Name(warehouse);
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        if (productList.size() > 0) {
+            productList.forEach(product -> {
+                productDTOList.add(productMap(product));
+            });
+        }
+
+        return productDTOList;
+    }
+
+    @Override
+    public Map<String, String> getColorByName(String color) {
+        Color colorDb = colorRepository.findByColor(color);
+        if (colorDb != null) {
+            Map<String, String> colorMap = new HashMap<>();
+            colorMap.put(colorDb.getColor(), colorDb.getCode());
+            return colorMap;
+        }
+        return null;
+    }
+
+    private ProductDTO productMap(Product product) {
+        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+        DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
+        String createdAt = formatter.format(product.getCreatedAt());
+        productDTO.setCreatedAt(createdAt);
+        productDTO.setColorString(product.getColor().getColor());
+        productDTO.setCapacityInt(product.getCapacity().getCapacity());
+        productDTO.setProductModelName(product.getProductModel().getModel());
+        productDTO.setStatus(product.getProductStatus().toString());
+        productDTO.setManufactureAt(product.getFactory().getName());
+        productDTO.setWarehouseName(product.getWarehouse().getName());
+        if (product.getDistribution() != null) {
+            productDTO.setDistributionAt(product.getDistribution().getName());
+        }
+        if (product.getWarranty() != null) {
+            productDTO.setWarrantyAt(product.getWarranty().getName());
+        }
+
+        return productDTO;
     }
 
 

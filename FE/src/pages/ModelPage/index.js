@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { get } from "../../utils/request";
 import style from "./ModelPage.module.scss";
 import Pagination from "react-pagination-library"
@@ -11,6 +11,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Button, Modal } from "react-bootstrap";
 import FormAddModel from "../../components/FormAddModel";
 import { addModel } from "../../utils/requestJson";
+import { AuthContext } from "../../context/UserContext";
 
 const cx = classNames.bind(style);
 
@@ -19,8 +20,11 @@ function ModelPage() {
     const [models, setModels] = useState([]);
     const [pageState, setPageState] = useState({
         currentPage: 1,
-        totalPages: 0
+        totalPages: 10
     })
+    
+    const [userState, dispatch] = useContext(AuthContext);
+    console.log(userState)
 
     const [newModel, setNewModel] = useState({
         model: '',
@@ -28,6 +32,8 @@ function ModelPage() {
         colorString: [],
         capacityList: [],
     })
+
+    console.log(models)
 
     
 
@@ -86,10 +92,13 @@ function ModelPage() {
                 Product Model
             </h1>
             <div className={cx('new-model')}>
+                {
+                    userState.userInfo.role === 'FACTORY' &&
             <button className={cx('btn-create')} onClick={handleOpen}>
                 <FontAwesomeIcon icon={faPlus} className={cx('icon')} />
                 <span>New Model</span>
             </button>
+                }
         </div>
         </div>
         <div className={cx('table')}>
@@ -125,7 +134,7 @@ function ModelPage() {
                                 <td>{index + 1}</td>
                                 <td>{model.model}</td>
                                 <td>{model.chip}</td>
-                                <td><ModelColor id={model.id} /></td>
+                                <td><ModelColor model={model.model} /></td>
                                 <td><ModelCapacity capacities={model.capacityList} /></td>
                             </tr>
                         ))
@@ -162,16 +171,17 @@ function ModelPage() {
 
     </div>);
 }
-function ModelColor({ id }) {
+function ModelColor({ model }) {
 
     const [colors, setColors] = useState([]);
 
-
+    console.log(model)
     useEffect(() => {
-        get(`/api/v1/models/${id}/colors`)
-            .then(response => setColors(response))
+        get(`/api/v1/models/${model}/colors`)
+            .then(response => setColors(Object.entries(response)))
             .catch(error => console.log(error));
-    }, [id])
+    }, [model])
+    console.log(colors)
 
     return (<div className={cx('color-model')}>
         {
@@ -181,11 +191,11 @@ function ModelColor({ id }) {
                     placement='top'
                     overlay={
                         <Tooltip >
-                            {color.color}
+                            {color[0]}
                         </Tooltip>
                     }
                 >
-                    <div style={{ backgroundColor: `${color.code}` }} key={index} className={cx('color')} />
+                    <div style={{ backgroundColor: `${color[1]}` }} key={index} className={cx('color')} />
                 </OverlayTrigger>
             ))
         }

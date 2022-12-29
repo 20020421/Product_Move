@@ -2,13 +2,19 @@ package com.monopoco.productmove.service.impl;
 
 import com.monopoco.productmove.entity.*;
 import com.monopoco.productmove.entityDTO.BranchDTO;
+import com.monopoco.productmove.entityDTO.ProductDTO;
 import com.monopoco.productmove.entityDTO.UserDTO;
 import com.monopoco.productmove.entityDTO.WarehouseDTO;
 import com.monopoco.productmove.repository.*;
 import com.monopoco.productmove.service.BranchService;
+import com.monopoco.productmove.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,6 +23,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 
 @Slf4j
@@ -29,6 +36,12 @@ public class BranchServiceImpl implements BranchService {
 
     @Autowired
     private BranchTypeRepository branchTypeRepository;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private FactoryHistoryRepository factoryHistoryRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -181,9 +194,65 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
+    public Page<WarehouseDTO> getWarehouses(Pageable pageable) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userRepository.findUserByUsername(username);
+        String brandName = user.getBranch().getName();
+        Page<Warehouse> warehousePage = warehouseRepository.findWarehousesByBranch_Name(pageable, brandName);
+        return warehousePage.map(new Function<Warehouse, WarehouseDTO>() {
+            @Override
+            public WarehouseDTO apply(Warehouse warehouse) {
+                WarehouseDTO warehouseDTO = modelMapper.map(warehouse, WarehouseDTO.class);
+                warehouseDTO.setBranchName(brandName);
+                warehouseDTO.setTotalProduct(warehouse.getProducts().size());
+
+                return warehouseDTO;
+            }
+        });
+    }
+
+    @Override
+    public int factoryWarehouseing(String warehouseName, List<ProductDTO> productDTOList) {
+        Optional<Warehouse> warehouseOptional = warehouseRepository.findWarehouseByName(warehouseName);
+        if (warehouseOptional.isPresent()) {
+            productDTOList.forEach(productDTO -> {
+                ProductDTO productDTOSaved = productService.save(productDTO, warehouseOptional.get());
+            });
+
+            FactoryHistory factoryHistory = new FactoryHistory(null,
+                    warehouseOptional.get().getBranch(),
+                    HistoryType.WAREHOUSING,
+                    productDTOList.size());
+            FactoryHistory factoryHistorySaved =
+                    factoryHistoryRepository.save(factoryHistory);
+
+            return productDTOList.size();
+        }
+        return 0;
+    }
+
+    @Override
     public void addBranchType(BranchType branchType) {
         log.info("adding new branch type: {}", branchType.getTypeName());
         BranchType branchTypeSaved = branchTypeRepository.save(branchType);
+    }
+
+    @Override
+    public Page<ProductDTO> getAllProduct(Pageable pageable) {
+
+        Page<WarehouseDTO> warehouseDTOPage = getWarehouses(PageRequest.of(0, 1000));
+        List<WarehouseDTO> warehouseDTOList = warehouseDTOPage.getContent();
+        List<ProductDTO> productDTOList = new ArrayList<>();
+        warehouseDTOList.forEach(warehouseDTO -> {
+            List<ProductDTO> productDTOWarehouse = productService.getProductsByWarehouse(warehouseDTO.getName());
+            productDTOList.addAll(productDTOWarehouse);
+        });
+
+        final int start = (int)pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), productDTOList.size());
+        Page<ProductDTO> productDTOPage = new PageImpl<>(productDTOList.subList(start, end), pageable, productDTOList.size());
+        return productDTOPage;
     }
 
 

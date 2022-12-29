@@ -51,20 +51,20 @@ public class ProductMoveApplication {
 	@Bean
 	CommandLineRunner run(UserService userService, BranchService branchService, ProductService productService) {
 		return args -> {
-			userService.addNewRole(new Role(null, "ADMIN", null));
-			userService.addNewRole(new Role(null, "FACTORY", null));
-			userService.addNewRole(new Role(null, "DISTRIBUTOR", null));
-			userService.addNewRole(new Role(null, "WARRANTY", null));
-
-			userService.addNewUser(new UserDTO(null, "hungdinh", "123456", null, null, null, null));
-			userService.addRoleToUser("hungdinh", "ADMIN");
-			branchService.addBranchType(new BranchType(null,"Factory", "FTR", null));
-			branchService.addBranchType(new BranchType(null,"Distributor Agent", "DIA", null));
-			branchService.addBranchType(new BranchType(null,"Warranty Center", "WAC", null));
-			productService.addNewCapacity(128);
-			productService.addNewCapacity(256);
-			productService.addNewCapacity(512);
-			productService.addNewCapacity(1024);
+//			userService.addNewRole(new Role(null, "ADMIN", null));
+//			userService.addNewRole(new Role(null, "FACTORY", null));
+//			userService.addNewRole(new Role(null, "DISTRIBUTOR", null));
+//			userService.addNewRole(new Role(null, "WARRANTY", null));
+//
+//			userService.addNewUser(new UserDTO(null, "hungdinh", "123456", null, null, null, null));
+//			userService.addRoleToUser("hungdinh", "ADMIN");
+//			branchService.addBranchType(new BranchType(null,"Factory", "FTR", null));
+//			branchService.addBranchType(new BranchType(null,"Distributor Agent", "DIA", null));
+//			branchService.addBranchType(new BranchType(null,"Warranty Center", "WAC", null));
+//			productService.addNewCapacity(128);
+//			productService.addNewCapacity(256);
+//			productService.addNewCapacity(512);
+//			productService.addNewCapacity(1024);
 
 
 		};

@@ -18,6 +18,14 @@ const request = axios.create({
 });
 
 export const get = async (url) => {
+    const request = axios.create({
+        baseURL: 'http://localhost:8080',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+    
+        },
+    });
     const response = await request.get(url);
     return response.data;
 };
@@ -36,6 +44,7 @@ export const addBranch = async (branch) => {
     const response = await request.post("/api/v1/branches", JSON.stringify(branch));
     return response;
 }
+
 
 
 

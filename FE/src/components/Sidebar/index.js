@@ -1,5 +1,5 @@
 import { icon } from "@fortawesome/fontawesome-svg-core";
-import { faAngleDown, faAngleLeft, faBorderAll, faBuildingCircleArrowRight, faChartLine, faCodeBranch, faDroplet, faIndustry, faMobile, faPencil, faPuzzlePiece, faToolbox, faUser, faWarehouse } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleLeft, faBagShopping, faBorderAll, faBuildingCircleArrowRight, faChartLine, faChartPie, faCodeBranch, faDroplet, faIndustry, faMobile, faPencil, faPuzzlePiece, faReceipt, faToolbox, faTruckFast, faUser, faWarehouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react";
@@ -78,6 +78,79 @@ const factorySidebar = [
                 icon: faWarehouse,
                 text: 'Warehouses',
                 to: routes.warehouse
+            },
+            {
+                icon: faReceipt,
+                text: "Warehousing",
+                to: routes.factoryWarehousing
+                
+            }
+        ]
+    }
+]
+
+const distributorSidebar = [
+    {
+        group: "Statistical",
+        items: [
+            {
+                icon: faChartPie,
+                text: "Statistical",
+                subs: [
+                    {
+                        text: 'Sold',
+                        to: routes.statisticalSold
+                    },
+                    {
+                        text: 'In Stock',
+                        to: routes.statisticalInStock
+                    },
+                    {
+                        text: 'Warranty',
+                        to: routes.statisticalWarranty
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        group: "Product",
+        items: [
+            {
+                icon: faBorderAll,
+                text: "Model",
+                to: routes.model
+            },
+            {
+                icon: faMobile,
+                text: "Products",
+                to: routes.product
+            }
+        ]
+    },
+    {
+        group: "Warehouse",
+        items: [
+            {
+                icon: faWarehouse,
+                text: 'Warehouses',
+                to: routes.warehouse
+            },
+            {
+                icon: faTruckFast,
+                text: "Product Coming",
+                to: routes.productComingDistribution
+            }
+            
+        ]
+    },
+    {
+        group: 'Purchase',
+        items: [
+            {
+                icon: faBagShopping,
+                text: 'New Purchase',
+                to: routes.newPurchase
             }
         ]
     }
@@ -284,7 +357,7 @@ function Sidebar() {
     // console.log(location.pathname)
 
     // console.log(minimumSidebar);
-    let sidebar = userState.userInfo.role === 'ADMIN' ? adminSidebar :   userState.userInfo.role === 'FACTORY' ? factorySidebar :   sidebarFake;
+    let sidebar = userState.userInfo.role === 'ADMIN' ? adminSidebar :   userState.userInfo.role === 'FACTORY' ? factorySidebar :   userState.userInfo.role === 'DISTRIBUTOR' ? distributorSidebar : sidebarFake;
 
     return ( 
         <SidebarContext.Provider value={[sidebarState, dispatch]}>

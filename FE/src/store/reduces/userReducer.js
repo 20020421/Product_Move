@@ -38,7 +38,7 @@ const userReducer = (state = initialState, action) => {
             localStorage.setItem('isLoggedIn', true);
             localStorage.setItem('access_token', action.userInfo.access_token);
             localStorage.setItem('refresh_token', action.userInfo.refresh_token);
-
+            // console.log(action.userInfo.access_token)
             return {
                 ...state,
                 isLoggedIn: true,

@@ -2,9 +2,7 @@ package com.monopoco.productmove.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,14 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 public class Warehouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "address")

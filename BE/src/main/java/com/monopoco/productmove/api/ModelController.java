@@ -59,10 +59,17 @@ public class ModelController {
         return ResponseEntity.status(HttpStatus.OK).body(colors);
     }
 
-    @GetMapping("/{id}/colors")
-    public ResponseEntity<?> getColorCode(@PathVariable Long id) {
-        List<Map<String, String>> colorCode = productService.getColor(id);
-        return ResponseEntity.status(HttpStatus.OK).body(colorCode);
+//    @GetMapping("/{id}/colors")
+//    public ResponseEntity<?> getColorCode(@PathVariable Long id) {
+//        List<Map<String, String>> colorCode = productService.getColor(id);
+//        return ResponseEntity.status(HttpStatus.OK).body(colorCode);
+//    }
+
+    @GetMapping("/{model}/colors")
+    public ResponseEntity<?> getColorCode(@PathVariable String model) {
+
+        Map<String, String> color = productService.getColor(model);
+        return ResponseEntity.status(HttpStatus.OK).body(color);
     }
 
     @PostMapping("/capacities")
