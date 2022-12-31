@@ -50,9 +50,9 @@ public enum ProductStatus {
             case 5:
                 return "Error need warranty";
             case 6:
-                return "UNDER_WARRANTY";
+                return "Under warranty";
             case 7:
-                return "WARRANTY_DONE";
+                return "Warranty done";
             case 8:
                 return "WARRANTY_RETURNED_TO_CUSTOMER";
             case 9:

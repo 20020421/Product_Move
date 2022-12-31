@@ -16,7 +16,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findProductBySerial(String serial);
 
+    List<Product> findProductsByWarranty_NameAndWarehouseIsNull(String warrantyName);
 
+    List<Product> findProductsByWarranty_NameAndWarehouseIsNullAndDistribution_Name(String warrantyName, String distributorName);
+
+    List<Product> findProductsByWarranty_NameAndWarehouseIsNotNull(String warrantyName);
 
     List<Product> findProductsByDistribution_NameAndProductStatus(String distributorName, ProductStatus productStatus);
 

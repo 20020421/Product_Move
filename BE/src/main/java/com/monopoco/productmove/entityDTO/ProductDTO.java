@@ -28,6 +28,8 @@ public class ProductDTO {
     private String createdAt;
 
     private String updateAt;
+
+    private String description;
     private String colorString;
 
     private Integer capacityInt;

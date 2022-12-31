@@ -3,20 +3,20 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { get } from "../../utils/request";
 import { ColorProduct } from "../ProductPage";
-import style from "./ComingDistributor.module.scss";
+import style from "./ComingWarranty.module.scss";
 import {ImportOutlined } from '@ant-design/icons';
 import { Modal } from "react-bootstrap";
 import { toast } from "react-hot-toast";
-import { distributorWarehousingAll } from "../../utils/requestJson";
+import { distributorWarehousingAll, warrantyWarehousing } from "../../utils/requestJson";
 
 
 const cx = classNames.bind(style);
-function ComingDistributor() {
+function ComingWarranty() {
 const columns = [
     {
-      title: 'From Factory',
-      dataIndex: 'factory',
-      key: 'factory',
+      title: 'From Distributor',
+      dataIndex: 'distributor',
+      key: 'distributor',
     },
     {
       title: 'Quantity',
@@ -24,7 +24,7 @@ const columns = [
       key: 'quantity',
     },
     {
-      title: 'Export Date',
+      title: 'Created Date',
       dataIndex: 'date',
       key: 'date',
     },
@@ -64,6 +64,12 @@ const columns = [
       dataIndex: 'serial',
       key: 'serial',
       
+  },
+  {
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description',
+    
   }
 
   ]
@@ -73,12 +79,12 @@ const columns = [
     const [data, setData] = useState([])
     const[show, setShow] = useState(false);
     const [typeWarehousing, setTypeWarehousing] = useState();
-    const [factoryChooses, setFactoryChooes]  = useState('')
+    const [distributorChoose, setDistributorChoose]  = useState('')
 
-    const handleOpen = (type,factory, event) => {
+    const handleOpen = (type,distributor, event) => {
       setTypeWarehousing(type)
-      if (factory) {
-        setFactoryChooes(factory);
+      if (distributor) {
+        setDistributorChoose(distributor);
         // console.log(factory)
       }
         setShow(true);
@@ -117,14 +123,16 @@ const columns = [
       if (typeWarehousing === 1) {
         dataPost = {
           ...dataPost,
-          factory: factoryChooses
+          distributor: distributorChoose
         }
       }
 
-      toast.promise(distributorWarehousingAll(dataPost), {
+      console.log(dataPost)
+
+      toast.promise(warrantyWarehousing(dataPost), {
               loading: 'Processing....',
               success: 'Warehousing Successfully',
-              error: 'Error to export',
+              error: 'Error to warehousing',
           }).then(response => resetData());
 
     }
@@ -132,7 +140,7 @@ const columns = [
     const handleClose = () => {
         setTypeWarehousing(null)
         setShow(false);
-        setFactoryChooes('')
+        setDistributorChoose('')
     }
 
 
@@ -142,13 +150,13 @@ const columns = [
 
     useEffect(() => {
 
-      Promise.all([get('/api/v1/distributors/warehousing'), get(`./api/v1/warehouses?page=0&size=1000`)])
+      Promise.all([get('/api/v1/warranties/products/coming'), get(`./api/v1/warehouses?page=0&size=1000`)])
       .then(response => {
         const arr = []
             Object.entries(response[0]).forEach((coming, index) => {
                 arr.push({
                     key: coming[0],
-                    factory: coming[0],
+                    distributor: coming[0],
                     date: coming[1][0].updateAt,
                     quantity: coming[1].length,
                     products: coming[1]
@@ -234,4 +242,4 @@ const columns = [
     </div> );
 }
 
-export default ComingDistributor;
+export default ComingWarranty;

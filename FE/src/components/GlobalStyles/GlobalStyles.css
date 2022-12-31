@@ -58,6 +58,10 @@ p {
     font-family: 'Roboto', sans-serif;
 }
 
+.rc-virtual-list-holder {
+    overflow-y: scroll;
+}
+
 h1,
 h2,
 h3,

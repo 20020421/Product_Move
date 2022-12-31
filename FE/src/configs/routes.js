@@ -11,10 +11,17 @@ const routes = {
     warehouse: '/warehouses',
     factoryWarehousing: '/factories/warehousing',
     productComingDistribution: '/distributor/coming',
+    productComingWarranty: '/warranties/coming',
+    warrantyProducts: '/warranties/products',
+
     statisticalSold: '/statistical/sold',
     statisticalInStock: '/statistical/instock',
     statisticalWarranty: '/statistical/warranty',
-    newPurchase: '/purchase',
+    newPurchase: '/distributors/purchase',
+    distributorWarranty: '/distributors/warranties',
+    sendProductToWarranty: '/distributors/send_warranty',
+    distributorWarrantyDone: '/distributors/warranties/products/done',
+    adminStatisticalByModel: '/admin/statistical/model',
     
 
     no_match: '*',

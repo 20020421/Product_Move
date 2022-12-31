@@ -2,8 +2,7 @@ package com.monopoco.productmove.api;
 
 import com.monopoco.productmove.entity.Product;
 import com.monopoco.productmove.entityDTO.ProductDTO;
-import com.monopoco.productmove.requestentity.DistributorWarehousingRequest;
-import com.monopoco.productmove.requestentity.PaymentRequest;
+import com.monopoco.productmove.requestentity.*;
 import com.monopoco.productmove.service.DistributorService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
@@ -86,21 +85,84 @@ public class DistributorController {
         }
     }
 
-    @GetMapping("/productsSold")
-    public ResponseEntity<?> getProductsSold(
+    @GetMapping("/statistical/sold")
+    public ResponseEntity<?> getProductsSoldStatistical(
             @RequestParam("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date from,
             @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date to
     ) {
         log.info(from.toString());
         log.info(to.toString());
-        List<ProductDTO> productDTOList = distributorService.getProductsSold(from, to);
+        Map<String,Integer> response = distributorService.getProductsSoldStatistical(from, to);
 
-        return ResponseEntity.ok().body(productDTOList);
+        return ResponseEntity.ok().body(response    );
     }
 
     @GetMapping("/serials")
     public ResponseEntity<?> getAllSerial() {
         return ResponseEntity.ok(distributorService.getAllSerial());
     }
+
+    @PostMapping("/check_warranty")
+    public ResponseEntity<?> checkUnderWarranty(@RequestBody CheckWarrantyRequest request) {
+        return ResponseEntity.ok(distributorService.isUnderWarranty(request.getSerial()));
+    }
+
+    @GetMapping("/products/sold/{serial}")
+    public ResponseEntity<Map<String, String>> getInfoProductSold(@PathVariable String serial) {
+        log.info(serial);
+        Map<String, String> response = distributorService.getDetailProductSold(serial);
+        if (!response.isEmpty()) {
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PostMapping("/warranties")
+    public ResponseEntity<?> addWarranty(@RequestBody AddWarrantyRequest request) {
+        ProductDTO productDTO = distributorService.takeProductWarranty(request.getSerial(), request.getDescription(), request.getWarehouse());
+        if (productDTO != null) {
+            return ResponseEntity.ok(productDTO);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/warranties/products")
+    public ResponseEntity<?> getAllProductNeedWarranty() {
+        return ResponseEntity.ok(distributorService.getAllProductWarrantyInWarehouse());
+    }
+
+    @GetMapping("/warranties/products/done")
+    public ResponseEntity<?> getAllProductWarrantyDone() {
+        return ResponseEntity.ok(distributorService.getAllProductWarrantyDone());
+    }
+
+    @PostMapping("/warranties/return_customer")
+    public ResponseEntity<?> warrantyReturnCustomer(@RequestBody WarrantyDoneRequest request) {
+        return ResponseEntity.ok(distributorService.returnCustomer(request.getSerial()));
+    }
+
+
+
+    @GetMapping("/warranties/products/{serial}")
+    public ResponseEntity<?> getDescriptionBySerial(@PathVariable String serial) {
+        String response = distributorService.getDescriptionWithSerial(serial);
+        if (response != null) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/warranties/send")
+    public ResponseEntity<?> sendErrorToWarranty(@RequestBody SendErrorProductToWarrantyRequest request) {
+        int response = distributorService.sendErrorProductsToWarranty(request.getWarranty(), request.getSerials());
+        if (response > 0) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
 }

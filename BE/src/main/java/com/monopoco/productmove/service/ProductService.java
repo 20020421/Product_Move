@@ -36,4 +36,6 @@ public interface ProductService {
 
     public Map<String, String> getColorByName(String color);
 
+    public Map<String, Integer> statisticalProduct();
+
 }

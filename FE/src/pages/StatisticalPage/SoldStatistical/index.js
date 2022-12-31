@@ -29,43 +29,59 @@ function SoldStatistical() {
 
     const handleSearch = () => {
 
-        toast.promise(get(`/api/v1/distributors/productsSold?from=${date[0]}&to=${date[1]}`), {
+        toast.promise(get(`/api/v1/distributors/statistical/sold?from=${date[0]}&to=${date[1]}`), {
             loading: 'Searching.....',
             success: "Done!",
             error: 'Try again!'
         }).then(response => {
             console.log(response);
-            setData(response);
+            setData(Object.entries(response));
         })
 
         console.log(date)
     }
 
 
-    return ( <div>
+    return (<div>
 
-            <h1>Statistics of products sold</h1>
+        <h1>Statistics of products sold</h1>
 
-            <div className={cx('options')}>
-                <DatePicker.RangePicker 
+        <div className={cx('options')}>
+            <DatePicker.RangePicker
                 allowClear={true}
-                placeholder={['From', 'To']} 
+                placeholder={['From', 'To']}
                 onChange={onChange}
                 onOk={onOk}
-                
-                />
-                <Button disabled={!date || date[0] === '' || date[1] === ''} onClick={handleSearch} type='primary'>Search</Button>
-            </div>
-            {
-                data && <Card style={{width: '500px'}} title={`Number of items sold (${date[0]}  -> ${date[1]}) `} bordered={false}>
-                <div style={{fontSize: '5rem', fontWeight: '700'}}>
-                    {data.length}
-                </div>
-              </Card>
-            }
+
+            />
+            <Button disabled={!date || date[0] === '' || date[1] === ''} onClick={handleSearch} type='primary'>Search</Button>
+        </div>
+        {
+            data && <>
+
+                <div className={cx('cards')}>
+                    <Card style={{ width: '500px' }} title={`${data[0][0]} sold`} bordered={false}>
+                        <div style={{ fontSize: '5rem', fontWeight: '700' }}>
+                            {data[0][1]}
+                        </div>
+                    </Card>
+                    <div className={cx('detail')}>
+                        {
+                            data.map((statistical, index) => {
+                                return index !== 0 &&
+                                    <Card key={index} style={{ width: '500px' }} title={`${statistical[0]} `} bordered={false}>
+                                        <div style={{ fontSize: '5rem', fontWeight: '700' }}>
+                                            {statistical[1]}
+                                        </div>
+                                    </Card> 
+                            })
+                        }
+                    </div>
+                </div></>
+        }
 
 
-    </div> );
+    </div>);
 }
 
 export default SoldStatistical;

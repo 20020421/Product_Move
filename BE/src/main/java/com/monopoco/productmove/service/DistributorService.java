@@ -21,7 +21,24 @@ public interface DistributorService {
 
     public ProductDTO getProductBySerial(String serial);
 
-    public List<ProductDTO> getProductsSold(Date from, Date to);
+    public Map<String,Integer> getProductsSoldStatistical(Date from, Date to);
 
     public List<String> getAllSerial();
+
+    public boolean isUnderWarranty(String serial);
+
+    public Map<String, String> getDetailProductSold(String serial);
+
+    public ProductDTO takeProductWarranty(String serial, String description, String warehouseName);
+
+    public List<ProductDTO> getAllProductWarrantyInWarehouse();
+
+    public String getDescriptionWithSerial(String serial);
+
+    public int sendErrorProductsToWarranty(String warranty, List<String> serials);
+
+    public List<ProductDTO> getAllProductWarrantyDone();
+
+    public ProductDTO returnCustomer(String serial);
+
 }

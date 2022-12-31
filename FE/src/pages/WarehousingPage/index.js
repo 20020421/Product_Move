@@ -20,7 +20,7 @@ function WarehousingPage() {
 
     useEffect(() => {
 
-        Promise.all([get(`./api/v1/warehouses?page=0&size=100`), get(`/api/v1/models`)])
+        Promise.all([get(`./api/v1/warehouses?page=0&size=100`), get(`/api/v1/models?page=0&size=100`)])
             .then(response => {
                 if (response[0].warehouses.length > 0) {
                     const warehousesName = []
@@ -134,39 +134,7 @@ function FieldProduct({ field, models, form }) {
         const colorMap = colors.find(colorz => colorz[0] === color);
         return colorMap[1];
     }
-    const tagRender = (props) => {
-        const { label, value, closable, onClose } = props;
-
-        const onPreventMouseDown = (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-        };
-
-        console.log(findCodeByColor(value))
-
-        const colorText = invertHex(value.substr(1));
-        return (
-            <OverlayTrigger
-
-                placement='top'
-                overlay={
-                    <Tooltip >
-                        {label}
-                    </Tooltip>
-                }
-            >
-                <Tag
-                    color={value}
-                    onMouseDown={onPreventMouseDown}
-                    closable={closable}
-                    onClose={onClose}
-                    style={{ marginRight: 3, '--color': colorText }}
-                >
-
-                </Tag>
-            </OverlayTrigger>
-        );
-    };
+    
 
     useEffect(() => {
         if (modelChoosed !== '') {

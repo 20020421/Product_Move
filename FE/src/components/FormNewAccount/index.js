@@ -28,14 +28,16 @@ function FormNewAccount({state, setState}) {
         
     }
 
-
+    
+    
     const [optionBranches, setOptionBranches] = useState([]);
     useEffect(() => {
         get("/api/v1/branches/names")
-            .then(response => setOptionBranches(response))
-            .then(error => console.log(error));
+        .then(response => setOptionBranches(response))
+        .then(error => console.log(error));
     }, [])
-
+    
+    console.log(optionBranches)
     return (<form className={cx('form')}>
         <div className={cx('form-group')}>
             <label htmlFor="username" className={cx('form-label')}>
@@ -60,7 +62,8 @@ function FormNewAccount({state, setState}) {
             <div className={cx('form-control','field')}>
             <Select
                 dropdownStyle={{
-                    zIndex: '999999'
+                    zIndex: '999999',
+                    "--display": 'flex',
                 }}
                 showSearch
                 style={{ width: 200 }}
@@ -75,6 +78,7 @@ function FormNewAccount({state, setState}) {
                 filterOption={(input, option) =>
                     option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                 }
+                
             >
                 {
                     optionBranches.map((optionBranch, index) => (

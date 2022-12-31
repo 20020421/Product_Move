@@ -235,5 +235,15 @@ public class ProductServiceImpl implements ProductService {
         return productDTO;
     }
 
+    @Override
+    public Map<String, Integer> statisticalProduct() {
+        List<Product> productList = productRepository.findAll();
+        Map<String, Integer> response = new HashMap<>();
+        productList.forEach(product -> {
+            response.computeIfPresent(product.getProductModel().getModel(), (key, val) -> val + 1);
 
+            response.putIfAbsent(product.getProductModel().getModel(), 1);
+        });
+        return response;
+    }
 }

@@ -36,6 +36,11 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/statistical/model")
+    public ResponseEntity<Map<String, Integer>> getStatisticalByModel() {
+        return ResponseEntity.ok(productService.statisticalProduct());
+    }
+
 //    @PostMapping("")
 //    public ResponseEntity<?> addNewProduct(@ModelAttribute ProductRequestForm productRequestForm) {
 //        ProductDTO productDTO = modelMapper.map(productRequestForm, ProductDTO.class);

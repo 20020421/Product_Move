@@ -1,5 +1,5 @@
 import { icon } from "@fortawesome/fontawesome-svg-core";
-import { faAngleDown, faAngleLeft, faBagShopping, faBorderAll, faBuildingCircleArrowRight, faChartLine, faChartPie, faCodeBranch, faDroplet, faIndustry, faMobile, faPencil, faPuzzlePiece, faReceipt, faToolbox, faTruckFast, faUser, faWarehouse } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleLeft, faBagShopping, faBarsProgress, faBorderAll, faBuildingCircleArrowRight, faChartLine, faChartPie, faCheck, faCodeBranch, faDroplet, faIndustry, faListCheck, faMobile, faPaperPlane, faPencil, faPuzzlePiece, faReceipt, faToolbox, faTruckFast, faUser, faWarehouse } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classNames from "classnames/bind";
 import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react";
@@ -12,6 +12,22 @@ import style from './Sidebar.module.scss';
 const cx = classNames.bind(style)
 
 const adminSidebar = [
+    {
+        group: 'Statistical',
+        items: [
+            {
+                icon: faBarsProgress,
+                text: 'Statistical',
+                subs: [
+                    {
+                        text: 'By Model',
+                        to: routes.adminStatisticalByModel,
+                    },
+                         
+                ]
+            }
+        ]
+    },
     {
         group: 'Branch',
         items: [
@@ -153,8 +169,61 @@ const distributorSidebar = [
                 to: routes.newPurchase
             }
         ]
+    },
+    {
+        group: 'Warranty',
+        items: [
+            {
+                icon: faToolbox,
+                text: 'Warranty',
+                to: routes.distributorWarranty
+            },
+            {
+                icon: faPaperPlane,
+                text: 'Wait To Warranty',
+                to: routes.sendProductToWarranty
+            },
+            {
+                icon: faCheck,
+                text: 'Warranty Done',
+                to: routes.distributorWarrantyDone
+            }
+        ]
     }
 ]
+
+const warrantySidebar = [
+    {
+        group: "Warehouse",
+        items: [
+            {
+                icon: faWarehouse,
+                text: 'Warehouses',
+                to: routes.warehouse
+            },
+            {
+                icon: faTruckFast,
+                text: "Product Coming",
+                to: routes.productComingWarranty
+            }
+            
+        ]
+    },
+    {
+        group: "Product",
+        items: [
+            {
+                icon: faListCheck,
+                text: 'Products',
+                to: routes.warrantyProducts
+            },
+            
+        ]
+    },
+
+
+]
+
 
 const sidebarFake = [
     {
@@ -357,7 +426,7 @@ function Sidebar() {
     // console.log(location.pathname)
 
     // console.log(minimumSidebar);
-    let sidebar = userState.userInfo.role === 'ADMIN' ? adminSidebar :   userState.userInfo.role === 'FACTORY' ? factorySidebar :   userState.userInfo.role === 'DISTRIBUTOR' ? distributorSidebar : sidebarFake;
+    let sidebar = userState.userInfo.role === 'ADMIN' ? adminSidebar :   userState.userInfo.role === 'FACTORY' ? factorySidebar :   userState.userInfo.role === 'DISTRIBUTOR' ? distributorSidebar : userState.userInfo.role === 'WARRANTY' ? warrantySidebar : sidebarFake;
 
     return ( 
         <SidebarContext.Provider value={[sidebarState, dispatch]}>

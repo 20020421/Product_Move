@@ -17,6 +17,12 @@ import ProductPage from '../pages/ProductPage';
 import ComingDistributor from '../pages/ComingDistributor';
 import SoldStatistical from '../pages/StatisticalPage/SoldStatistical';
 import Purchase from '../pages/Purchase';
+import DisWarranty from '../pages/DisWarranty';
+import SendProductToWarranty from '../pages/SendProductToWarranty';
+import ComingWarranty from '../pages/ComingWarranty';
+import ProductManagerWarranty from '../pages/ProductManagerWarranty';
+import DistributorWarrantyDone from '../pages/DistributorManagerWarranty';
+import AdminStatisticalPage from '../pages/AdminStatisticalPage';
 
 
 const publicRoutes = [
@@ -95,6 +101,11 @@ const privateRoutes = [
         component: ComingDistributor
     },
     {
+        title: 'Coming',
+        path: routes.productComingWarranty,
+        component: ComingWarranty
+    },
+    {
         title: 'Statistical Sold',
         path: routes.statisticalSold,
         component: SoldStatistical
@@ -105,10 +116,38 @@ const privateRoutes = [
         component: Purchase
     },
     {
+        title: 'DisWarranty',
+        path: routes.distributorWarranty,
+        component: DisWarranty
+    },
+    {
+        title: "",
+        path: routes.sendProductToWarranty,
+        component: SendProductToWarranty
+    }, 
+
+    {
+        title: "Products",
+        path: routes.warrantyProducts,
+        component: ProductManagerWarranty
+    }, 
+    {
+        title: "Products",
+        path: routes.distributorWarrantyDone,
+        component: DistributorWarrantyDone
+    }, 
+    {
+        title: "Statistical",
+        path: routes.adminStatisticalByModel,
+        component: AdminStatisticalPage
+    }, 
+    
+    {
         title: 'Not Found',
         path:routes.no_match,
         component: NoRouteMatch
     },
+    
 
 
 ];

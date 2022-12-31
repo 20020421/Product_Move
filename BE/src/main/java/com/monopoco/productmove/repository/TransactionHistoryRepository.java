@@ -13,4 +13,9 @@ import java.util.Locale;
 public interface TransactionHistoryRepository extends JpaRepository<TransactionHistory, Long> {
 
     List<TransactionHistory> findTransactionHistoriesByDistributorAgent_NameAndCreatedAtBetween(String distributorAgent_name, Date createdAt, Date createdAt2);
+
+    TransactionHistory findFirstBySerial(String serial);
+
+
+
 }

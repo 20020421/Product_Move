@@ -1,7 +1,9 @@
 import axios from "axios";
 import classNames from "classnames/bind";
 import { useContext, useState } from "react";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../context/UserContext";
+import { newBranch } from "../../utils/requestJson";
 import style from './FormAddBranch.module.scss';
 
 const cx = classNames.bind(style);
@@ -47,25 +49,34 @@ function FormAddBranch() {
 
         if (branchIsValid) {
             const data = JSON.stringify(branch);
-            const config = {
-                method: 'post',
-                url: 'http://localhost:8080/api/v1/branches',
-                headers: {
-                    'Authorization': "Bearer " + userState.accessToken,
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
-            axios(config)
-                .then(response => {
-                    if (response.status === 200) {
-                        resetField();
-                        alert("Add successfully");
-                    }
-                })
-                .catch(error => {
-                    setErrorMess("New creation failed. Try again.")
-                });
+            toast.promise(newBranch(branch), {
+                loading: 'Creating.....',
+                success: 'Create new Branch success!',
+                error: 'Fail to create branch try again!'
+            }).then(() => {
+                resetField();
+            }).catch(error => {
+                        setErrorMess("New creation failed. Try again.")
+                    });
+            // const config = {
+            //     method: 'post',
+            //     url: 'http://localhost:8080/api/v1/branches',
+            //     headers: {
+            //         'Authorization': "Bearer " + userState.accessToken,
+            //         'Content-Type': 'application/json'
+            //     },
+            //     data: data
+            // };
+            // axios(config)
+            //     .then(response => {
+            //         if (response.status === 200) {
+            //             resetField();
+            //             alert("Add successfully");
+            //         }
+            //     })
+            //     .catch(error => {
+            //         setErrorMess("New creation failed. Try again.")
+            //     });
         }
     }
 

@@ -3,3 +3,14 @@
     gap: 10px;
     margin-bottom: 20px;
 }
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    .detail {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+}

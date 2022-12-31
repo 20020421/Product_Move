@@ -8,6 +8,8 @@ import style from './Header.module.scss';
 import UserOptions from "./UserOptions";
 import useComponentVisible from "../../../../hooks/useComponentVisible";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../../context/UserContext";
+import { useContext } from "react";
 
 const cx = classNames.bind(style);
 
@@ -16,6 +18,8 @@ function Header({toggleSidebar}) {
 
 
     const {ref, isComponentVisible, setIsComponentVisible} = useComponentVisible(false);
+
+    const [userState, dispatch] = useContext(AuthContext);
 
     return (
         <div className={cx("wrapper")}>
@@ -51,25 +55,9 @@ function Header({toggleSidebar}) {
             </div>
             <div className={cx('header-divider')}></div>
             <div className={cx('container-fluid', 'header-breadcrumb')}>
-                <nav className={cx('breadcrumb')}>
-                    <ol className={cx('breadcrumb-list')}>
-                        <li className={cx('breadcrumb-item')}>
-                            <Link to='/'>
-                                Home
-                            </Link>
-                        </li>
-                        <li className={cx('breadcrumb-item')}>
-                            <Link to='/'>
-                                Home
-                            </Link>
-                        </li>
-                        <li className={cx('breadcrumb-item', 'active')}>
-                            <Link to='/'>
-                                Home
-                            </Link>
-                        </li>
-                    </ol>
-                </nav>
+                {
+                    userState.userInfo.role && (<h3>{userState.userInfo.role} MANAGERMENT</h3>)
+                }
             </div>
         </div>);
 }
