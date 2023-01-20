@@ -32,6 +32,12 @@
 - Chuyển sản phẩm bảo hành lỗi không thể sửa chữa về cơ sở sản xuất.
 - Thống kê và báo cáo số liệu sản phẩm theo từng loại (trạng thái), theo tháng, quý, năm.
 
+## Tech Stack
+
+**Client:** ReactJs, antd, bootstrap
+
+**Server:** Springboot, JWT, MySQL
+
 ## Demo
 
 https://drive.google.com/file/d/1a9Gk5W2s-XTp6lKfIQZVl72HqdUq7rgc/view?usp=sharing
